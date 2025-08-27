@@ -8,8 +8,10 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -68,7 +70,9 @@ public class MemberController {
 		return "join";
 	}
 	
-	@RequestMapping(value = "/joinOk")
+	@RequestMapping(value = "/joinOk", method = RequestMethod.POST) 
+	// method를 생략하면 둘 다 받음 / 명시하면 form 과 방식이 일치해야 작동함
+	
 	//public String joinOk (HttpServletRequest request, Model model) {
 	public String joinOk (MemberDto memberDto, Model model) {
 // 		MemberDto 의 멤버변수와 form의 파라미터 이름이 반드시 일치해야 함				
@@ -83,14 +87,25 @@ public class MemberController {
 		return "joinOk";
 	}
 	
+	// method 를 다르게 명시하면 value 값이 일치해도 두 방식을 모두 처리 가능
+	@RequestMapping(value = "/joinOk", method = RequestMethod.GET) 
+	public String joinOk2 (MemberDto memberDto, Model model) {
+
+		model.addAttribute("memberDto",memberDto);
+		return "joinOk";
+	}
+	
 	@RequestMapping( value = "/boardlist/{bnum}")
 	public String boardlist (@PathVariable String bnum, Model model) { // 파라미터 이름 없이 전달된 값 받아오기
 		model.addAttribute("bnum", bnum);
 		return "boardlist";
 	}
 	
-	
-	
-	
+	// 이름 변경
+	@RequestMapping(value = "/student")
+	public String studentInfo ( @ModelAttribute("sInfo") StudentInformationDto studentInformationDto, Model model) {
+		//model.addAttribute("studentInformationDto", studentInformationDto);
+		return "student";
+	}
 	
 }
