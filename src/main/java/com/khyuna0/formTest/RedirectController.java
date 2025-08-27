@@ -20,11 +20,12 @@ public class RedirectController {
 	}
 	
 	@RequestMapping(value = "/studentCheck")
-	public String studentCheck (@RequestParam("sid") String sid, Model model, HttpServletResponse response) {
+	public String studentCheck (@RequestParam("sid") String sid, Model model) {
 		
 		if(sid.equals("tiger")) { // tiger 아이디이면 학생으로 간주
 			// redirect : 로 요청 주기
 			return "redirect:studentGood";
+			// return "studentGood" -> 그냥 뷰페이지로 이동하기. 결과가 뜨지 않음
 		} else {
 			return "redirect:studentNg";
 			// redirect:다음에 나오는 문자열은 요청이지 jsp 파일의 이름이 아님!
